@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique @db.VarChar(255)
+  email      String       @unique @db.VarChar(255)
+  password   String       @db.VarChar(255)
+  createdAt  DateTime     @default(now())
+  Session    Session[] 
+
+    @@map("users")    
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String
+  createdAt DateTime @default(now())
+
+  	@@map("sessions")
+}
+
+model SpecificMassLiquidComponent {
+	id        Int      @id @default(autoincrement())
+  	name      String   @unique @db.VarChar(255)
+	molecularMass      Decimal
+	A                  Decimal
+	B                  Decimal
+	C                  Decimal
+	D                  Decimal
+	E                  Decimal
+
+	@@map("components")
+}
+
+model SpecificMassVaporComponent {
+	id        Int      @id @default(autoincrement())
+  	name      String   @unique @db.VarChar(255)
+	molecularMass      Decimal
+	w                  Decimal
+	Pc                 Decimal
+	Tc                 Decimal
+
+	@@map("components")
+}
+
+model VaporComponentViscosity {
+	id        Int      @id @default(autoincrement())
+  	name      String   @unique @db.VarChar(255)
+	molecularMass      Decimal
+	A                  Decimal
+	B                  Decimal
+	C                  Decimal
+	D                  Decimal
+	E                  Decimal
+
+	@@map("components")
+}
+
+model ViscosityLiquidComponent {
+	id        Int      @id @default(autoincrement())
+  	name      String   @unique @db.VarChar(255)
+	molecularMass      Decimal
+	A                  Decimal
+	B                  Decimal
+	C                  Decimal
+	D                  Decimal
+	E                  Decimal
+
+	@@map("components")
+}
